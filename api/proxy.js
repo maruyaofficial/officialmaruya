@@ -6,28 +6,56 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(targetUrl, {
+    const upstreamResponse = await fetch(targetUrl, {
       method: 'GET',
       headers: {
         'User-Agent': req.headers['user-agent'] || 'Mozilla/5.0',
-        'Referer': req.headers['referer'] || 'https://vercel.app/',
-        'Origin': req.headers['origin'] || '',
+        'Referer': req.headers['referer'] || '',
         'Range': req.headers['range'] || '',
+        'Origin': req.headers['origin'] || '',
         'Accept': '*/*',
+      },
+    });
+
+    // Copy status and headers
+    res.status(upstreamResponse.status);
+    upstreamResponse.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
+
+    // CORS Headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+    // Stream video/audio properly
+    const reader = upstreamResponse.body.getReader();
+    const stream = new ReadableStream({
+      async pull(controller) {
+        const { done, value } = await reader.read();
+        if (done) {
+          controller.close();
+        } else {
+          controller.enqueue(value);
+        }
       }
     });
 
-    // Copy headers
-    response.headers.forEach((v, k) => res.setHeader(k, v));
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    res.status(response.status);
-    response.body.pipeTo(Writable.toWeb(res));
-  } catch (error) {
-    res.status(500).json({
-      error: 'Proxy fetch failed',
-      details: error.message,
-      url: targetUrl
-    });
+    const nodeStream = streamToNodeReadable(stream);
+    nodeStream.pipe(res);
+  } catch (err) {
+    res.status(500).json({ error: 'Proxy failed', details: err.message });
   }
+}
+
+// Helper: Convert Web ReadableStream to Node.js Stream
+import { Readable } from 'stream';
+function streamToNodeReadable(stream) {
+  const reader = stream.getReader();
+  return new Readable({
+    async read() {
+      const { done, value } = await reader.read();
+      if (done) this.push(null);
+      else this.push(value);
+    }
+  });
 }

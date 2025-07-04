@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Proxy API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .status {
+            text-align: center;
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 Video Proxy API</h1>
+        
+        <p>This is a video streaming proxy service that handles DASH manifests and video segments with CORS support.</p>
+        
+        <div class="endpoint">
+            <h3>📡 API Endpoint</h3>
+            <code>GET /api/proxy?url={ENCODED_VIDEO_URL}</code>
+        </div>
+
+        <div class="endpoint">
+            <h3>✨ Features</h3>
+            <ul>
+                <li>DASH manifest (.mpd) URL rewriting</li>
+                <li>Video segment proxying (.ts, .m4s files)</li>
+                <li>CORS header injection</li>
+                <li>Retry logic with exponential backoff</li>
+                <li>URL validation and sanitization</li>
+                <li>CDN pattern recognition</li>
+            </ul>
+        </div>
+
+        <div class="endpoint">
+            <h3>🔧 Usage Example</h3>
+            <code>/api/proxy?url=https%3A//example.com/video/manifest.mpd</code>
+        </div>
+
+        <div class="endpoint">
+            <h3>📋 Supported Formats</h3>
+            <ul>
+                <li>DASH (.mpd)</li>
+                <li>MPEG-TS (.ts)</li>
+                <li>MP4 segments (.m4s)</li>
+                <li>MP4 videos (.mp4)</li>
+            </ul>
+        </div>
+
+        <div class="status">
+            ✅ API Service Active
+        </div>
+    </div>
+
+    <script>
+        // Simple status check
+        fetch('/api/proxy?url=https://httpbin.org/status/200')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Proxy API is working');
+                } else {
+                    console.log('⚠️ Proxy API may have issues');
+                }
+            })
+            .catch(err => {
+                console.log('❌ Proxy API is not responding');
+            });
+    </script>
+</body>
+</html> 

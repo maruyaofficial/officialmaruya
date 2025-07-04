@@ -1,8 +1,20 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "source": "/docs/:http://reusora.org/mplayer/music/track1.mp3",
-      "destination": "/new/:path*"
-   }
+      "source": "/api/:path*",
+      "destination": "https://api.example.com/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "CDN-Cache-Control",
+          "value": "max-age=60"
+        }
+      ]
+    }
   ]
 }

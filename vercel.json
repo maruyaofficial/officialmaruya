@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/docs/:http://reusora.org/mplayer/music/track1.mp3",
+      "destination": "/new/:path*"
+   }
+  ]
+}

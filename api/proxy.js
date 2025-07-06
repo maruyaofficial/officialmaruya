@@ -1,5 +1,16 @@
 export default async function handler(req, res) {
-  const targetUrl = req.query.url;
+
+  const url = req.query.url;
+  const response = await fetch(url);
+  const data = await response.body;
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  response.headers.forEach((v, k) => res.setHeader(k, v));
+  data.pipe(res);
+}
+
+
+export default async function handler(req, res) {
+
 
   if (!targetUrl || !/^https?:\/\//.test(targetUrl)) {
     return res.status(400).json({ error: 'Invalid or missing ?url=' });

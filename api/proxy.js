@@ -3,9 +3,9 @@
 import { Readable } from 'stream';
 
 const ALLOWED_HOSTS = [
-  'akamaized.net', // Allows *.akamaized.net (e.g., tglmp01.akamaized.net)
-  'example.com',
-  'cdn.example.net',
+  '*akamaized.net', // Allows *.akamaized.net (e.g., tglmp01.akamaized.net)
+  '*.amagi.tv',
+  '*.skygo.mn',
 ];
 
 export default async function handler(req, res) {

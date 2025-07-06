@@ -6,6 +6,7 @@ const ALLOWED_HOSTS = [
   '*akamaized.net', // Allows *.akamaized.net (e.g., tglmp01.akamaized.net)
   '*.amagi.tv',
   '*.skygo.mn',
+  'nocable.cc',
 ];
 
 export default async function handler(req, res) {

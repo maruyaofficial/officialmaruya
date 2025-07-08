@@ -1,6 +1,6 @@
-const CONVRG_MANIFEST_BASE = 'https://convrgelive.nathcreqtives.com/001/2/';
+const CONVRG_MANIFEST_BASE = 'https://officialmaruya.vercel.app/001/2/';
 const CONVRG_MANIFEST_SUFFIX = '/manifest.mpd?virtualDomain=001.live_hls.zte.com&IASHttpSessionId=OTT';
-const CONVRG_LICENSE_URI = 'https://convrgkey.nathcreqtives.com/widevine/?deviceId=02:00:00:00:00:00';
+const CONVRG_LICENSE_URI = 'https://officialmaruya.vercel.app/widevine/?deviceId=02:00:00:00:00:00';
 
 function generateChannelId(name) {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '').substring(0, 20) || `ch${Date.now().toString(36)}`;
@@ -9,59 +9,62 @@ function generateChannelId(name) {
 const defaultChannelList = [
 
 
-    {
-        name: "ANIMAX",
-        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_animax_sd_new.mpd',
-        drm: null,
-        format: "dash"
+  {
+    "name": "ANIMAX",
+    "id": "animax",
+    "manifest": "https://officialmaruya.vercel.app/api/akamai/grp-07/cg_animax_sd_new.mpd",
+    "drm": {
+      "type": "clearkey",
+      "licenseUrl": "https://officialmaruya.vercel.app/api/license/clearkey?channel=animax"
     },
-
+    "format": "dash"
+  },
     {
         name: "CINEMO",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/f1da36ea-047e-4262-9e45-9326d0e2930b/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/f1da36ea-047e-4262-9e45-9326d0e2930b/index.mpd',
         drm: null,
         format: "dash"
     },
 
         {
         name: "Cinema One",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemaone-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemaone-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
     {
         name: "Kapamilya HD",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
     {
         name: "ANC",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-anc-global-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-anc-global-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
     {
         name: "GMA Pinoy TV",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
     {
         name: "Myx",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
     {
         name: "Teleradyo Serbisyo",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
     {
         name: "TFC",
-        manifest: 'https://officialmaruya-vv2j.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd',
+        manifest: 'https://officialmaruya.vercel.app/api/proxy?url=https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd',
         drm: null,
         format: "dash"
     },
@@ -173,7 +176,7 @@ const defaultChannelList = [
             if (match) {
                 const groupName = match[0];
                 const manifestName = url.pathname.split('/').pop();
-                channel.manifest = `https://proxy.nathcreqtives.com/api/akamai/${groupName}/${manifestName}`;
+                channel.manifest = `https://officialmaruya.vercel.app/api/akamai/${groupName}/${manifestName}`;
             }
         } catch (e) {
             console.error("Failed to parse PLDT manifest URL:", channel.manifest, e);

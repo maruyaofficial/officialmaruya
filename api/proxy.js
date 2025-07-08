@@ -1,24 +1,27 @@
-// /api/proxy.js
-
 import { Readable } from 'stream';
 
 const ALLOWED_HOSTS = [
-  '*akamaized.net', // Allows *.akamaized.net (e.g., tglmp01.akamaized.net)
-  '*.amagi.tv',
-  '*.skygo.mn',
-  'nocable.cc',
+  'akamaized.net',
+  'amagi.tv',
+  'skygo.mn',
+  'nocable.cc'
 ];
 
 export default async function handler(req, res) {
-  const targetUrl = req.query.url;
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    return res.status(200).end();
+  }
 
+  const targetUrl = req.query.url;
   if (!targetUrl || !/^https?:\/\//.test(targetUrl)) {
     return res.status(400).json({ error: 'Missing or invalid ?url=' });
   }
 
   const parsedHost = new URL(targetUrl).hostname;
-
-  // Allow subdomains (wildcard match)
   const allowed = ALLOWED_HOSTS.some(allowedHost =>
     parsedHost === allowedHost || parsedHost.endsWith(`.${allowedHost}`)
   );
@@ -39,25 +42,15 @@ export default async function handler(req, res) {
       },
     });
 
-    // Forward status
     res.status(upstreamResponse.status);
 
-    // Forward selected headers
     upstreamResponse.headers.forEach((value, key) => {
       res.setHeader(key, value);
     });
 
-    // Add/override CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', '*');
 
-    // Optional: Force download
-    // const contentType = upstreamResponse.headers.get('content-type') || 'application/octet-stream';
-    // const filename = targetUrl.split('/').pop()?.split('?')[0] || 'file';
-    // res.setHeader('Content-Type', contentType);
-    // res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-
-    // Stream to client
     const reader = upstreamResponse.body.getReader();
     const stream = new ReadableStream({
       async pull(controller) {
